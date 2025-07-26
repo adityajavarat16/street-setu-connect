@@ -1,7 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Users, Star } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
   return (
     <header className="border-b bg-card/80 backdrop-blur-sm sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -29,15 +33,26 @@ const Header = () => {
           </a>
         </nav>
 
-        <div className="flex items-center space-x-3">
-          <Button variant="outline" size="sm">
-            <Users className="h-4 w-4 mr-2" />
-            Vendor Login
-          </Button>
-          <Button size="sm" className="bg-gradient-primary hover:opacity-90">
-            <Star className="h-4 w-4 mr-2" />
-            Supplier Login
-          </Button>
+        <div className="flex items-center space-x-4">
+          {user ? (
+            <>
+              <Button variant="ghost" onClick={() => navigate('/dashboard')}>
+                Dashboard
+              </Button>
+              <Button variant="outline" onClick={signOut}>
+                Sign Out
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button variant="outline" onClick={() => navigate('/auth')}>
+                Sign In
+              </Button>
+              <Button onClick={() => navigate('/auth')}>
+                Get Started
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </header>
