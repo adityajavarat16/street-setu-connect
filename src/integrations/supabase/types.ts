@@ -14,7 +14,399 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      categories: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean | null
+          name: string
+          name_hindi: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          name: string
+          name_hindi?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          name?: string
+          name_hindi?: string | null
+        }
+        Relationships: []
+      }
+      chat_rooms: {
+        Row: {
+          created_at: string
+          id: string
+          supplier_id: string
+          updated_at: string
+          vendor_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          supplier_id: string
+          updated_at?: string
+          vendor_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          supplier_id?: string
+          updated_at?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_rooms_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_rooms_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      messages: {
+        Row: {
+          chat_room_id: string
+          created_at: string
+          id: string
+          is_read: boolean | null
+          message: string
+          message_type: string | null
+          sender_id: string
+        }
+        Insert: {
+          chat_room_id: string
+          created_at?: string
+          id?: string
+          is_read?: boolean | null
+          message: string
+          message_type?: string | null
+          sender_id: string
+        }
+        Update: {
+          chat_room_id?: string
+          created_at?: string
+          id?: string
+          is_read?: boolean | null
+          message?: string
+          message_type?: string | null
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_chat_room_id_fkey"
+            columns: ["chat_room_id"]
+            isOneToOne: false
+            referencedRelation: "chat_rooms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_sender_id_fkey"
+            columns: ["sender_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      order_items: {
+        Row: {
+          created_at: string
+          id: string
+          order_id: string
+          product_id: string
+          quantity: number
+          total_price: number
+          unit_price: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          order_id: string
+          product_id: string
+          quantity: number
+          total_price: number
+          unit_price: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          order_id?: string
+          product_id?: string
+          quantity?: number
+          total_price?: number
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          created_at: string
+          delivery_address: string
+          delivery_date: string | null
+          id: string
+          notes: string | null
+          status: string
+          supplier_id: string
+          total_amount: number
+          updated_at: string
+          vendor_id: string
+        }
+        Insert: {
+          created_at?: string
+          delivery_address: string
+          delivery_date?: string | null
+          id?: string
+          notes?: string | null
+          status?: string
+          supplier_id: string
+          total_amount: number
+          updated_at?: string
+          vendor_id: string
+        }
+        Update: {
+          created_at?: string
+          delivery_address?: string
+          delivery_date?: string | null
+          id?: string
+          notes?: string | null
+          status?: string
+          supplier_id?: string
+          total_amount?: number
+          updated_at?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      price_alerts: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean | null
+          product_id: string
+          target_price: number
+          vendor_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          product_id: string
+          target_price: number
+          vendor_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          product_id?: string
+          target_price?: number
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "price_alerts_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "price_alerts_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          category_id: string
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          is_available: boolean | null
+          minimum_order_quantity: number | null
+          name: string
+          name_hindi: string | null
+          price_per_unit: number
+          stock_quantity: number | null
+          supplier_id: string
+          unit: string
+          updated_at: string
+        }
+        Insert: {
+          category_id: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_available?: boolean | null
+          minimum_order_quantity?: number | null
+          name: string
+          name_hindi?: string | null
+          price_per_unit: number
+          stock_quantity?: number | null
+          supplier_id: string
+          unit: string
+          updated_at?: string
+        }
+        Update: {
+          category_id?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_available?: boolean | null
+          minimum_order_quantity?: number | null
+          name?: string
+          name_hindi?: string | null
+          price_per_unit?: number
+          stock_quantity?: number | null
+          supplier_id?: string
+          unit?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          address: string
+          business_license: string | null
+          business_name: string
+          city: string
+          contact_person: string
+          created_at: string
+          email: string
+          gstin: string | null
+          id: string
+          is_verified: boolean | null
+          latitude: number | null
+          longitude: number | null
+          phone: string
+          pincode: string
+          profile_image_url: string | null
+          rating: number | null
+          state: string
+          total_ratings: number | null
+          updated_at: string
+          user_id: string
+          user_type: string
+        }
+        Insert: {
+          address: string
+          business_license?: string | null
+          business_name: string
+          city: string
+          contact_person: string
+          created_at?: string
+          email: string
+          gstin?: string | null
+          id?: string
+          is_verified?: boolean | null
+          latitude?: number | null
+          longitude?: number | null
+          phone: string
+          pincode: string
+          profile_image_url?: string | null
+          rating?: number | null
+          state: string
+          total_ratings?: number | null
+          updated_at?: string
+          user_id: string
+          user_type: string
+        }
+        Update: {
+          address?: string
+          business_license?: string | null
+          business_name?: string
+          city?: string
+          contact_person?: string
+          created_at?: string
+          email?: string
+          gstin?: string | null
+          id?: string
+          is_verified?: boolean | null
+          latitude?: number | null
+          longitude?: number | null
+          phone?: string
+          pincode?: string
+          profile_image_url?: string | null
+          rating?: number | null
+          state?: string
+          total_ratings?: number | null
+          updated_at?: string
+          user_id?: string
+          user_type?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
